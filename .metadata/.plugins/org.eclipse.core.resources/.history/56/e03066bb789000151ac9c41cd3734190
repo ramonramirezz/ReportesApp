@@ -23,8 +23,6 @@
             </intent-filter>
         </activity>
         <activity android:name="RegistrarAct"></activity>
-        <activity android:name="WelcomeActivity"></activity>
-        <activity android:name="NewReport"></activity>
     </application>
 
 </manifest>

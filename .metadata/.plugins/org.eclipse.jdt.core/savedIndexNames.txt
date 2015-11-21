@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+C:\Users\dany__000\Documents\GitHub\ReportesApp\.metadata\.plugins\org.eclipse.jdt.core
+939230884.index
+4025142167.index
+3116300430.index
