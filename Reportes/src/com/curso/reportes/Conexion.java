@@ -1,7 +1,5 @@
 package com.curso.reportes;
 
-import com.example.loginbd.Conexion;
-import com.example.loginbd.Conexion.BDHelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
