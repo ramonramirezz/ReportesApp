@@ -49,17 +49,14 @@ public class MainActivity extends Activity implements OnClickListener {
 			String password=_contra.getText().toString();
 			//For not empty edittext
 			if(user!="" && password!=""){
-				//Showing a message of empty edittext
 				Context context = getApplicationContext();
-				CharSequence text = "Rellene los campos de usuario y contraseña.";
+				CharSequence text = "Rellene los campos requeridos.";
 				int duration = Toast.LENGTH_SHORT;
+
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
-				
-				
-			}else{//for wrong password &username
-				startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
-			}
+			}//for wrong password &username
+			startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 			break;
 			
 		case R.id.btnRegrist:
