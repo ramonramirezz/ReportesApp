@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			String user=_usuario.getText().toString();
 			String password=_contra.getText().toString();
 			//For not empty edittext
-			if(user!="" && password!=""){
+			if(user=="" && password==""){
 				//Showing a message of empty edittext
 				Context context = getApplicationContext();
 				CharSequence text = "Rellene los campos de usuario y contraseña.";
