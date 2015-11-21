@@ -2,6 +2,8 @@ package com.curso.reportes;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegistrarAct extends Activity implements OnClickListener{
 
@@ -41,19 +45,66 @@ public class RegistrarAct extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		String nom, usuario, contra1, contra2;
-		
-		nom = _nombres.getText().toString();
-		usuario = _usuario.getText().toString();
-		contra1 = _contra1.getText().toString();
-		contra2 = _contra2.getText().toString();
 				
 		switch	(v.getId()){
-		case R.id.btnAceptar:
-			
-			startActivity(new Intent (RegistrarAct.this, MainActivity.class));
+		case R.id.btnAceptar:			
+			boolean status;
+			try {
+				String nom, usuario, contra1, contra2;			
+				nom = _nombres.getText().toString();
+				usuario = _usuario.getText().toString();
+				contra1 = _contra1.getText().toString();
+				contra2 = _contra2.getText().toString();
+				if(nom.equals("") || usuario.equals("") || contra1.equals("") || contra2.equals("")){
+					
+					Context context = getApplicationContext();
+					Toast toast = Toast.makeText(context, "Todos los campos tienes que estar llenos", Toast.LENGTH_SHORT);
+					toast.show();
+					
+				}
+				if (contra1.equals(contra2)) {
+					Conexion con = new Conexion(RegistrarAct.this);
+					con.abrir();
+					status = con.addUser(nom, usuario, contra1);
+					con.cerrar();
+					
+					if (status) {
+						
+							Dialog d = new Dialog(this);
+							d.setTitle("Se creo su usuario exitosamente");
+							TextView tv = new TextView(this);
+							d.setContentView(tv);
+							d.show();
+							startActivity(new Intent (RegistrarAct.this, MainActivity.class));
+						
+					}else {
+						Toast toast = Toast.makeText(getApplicationContext(), "No se creo usuario", Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				}else{
+					Dialog d = new Dialog(this);
+					d.setTitle("Contraseñas");
+					TextView tv = new TextView(this);
+					tv.setText("Las contraseñas no coinciden");
+					d.setContentView(tv);
+					d.show();	
+					_contra1.setText("");
+					_contra2.setText("");
+					
+				}
+	
+			} catch (Exception e) {
+				// TODO: handle exception
+				status = false;
+				String error = e.toString();
+				Dialog d = new Dialog(this);
+				d.setTitle("No funciona :(");
+				TextView tv = new TextView(this);
+				tv.setText(error);
+				d.setContentView(tv);
+				d.show();
+			}
 			break;
-		}
-		
 	}
+  }
 }
