@@ -3,13 +3,14 @@ package com.curso.reportes;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -45,25 +46,41 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch(v.getId()){
 		
 		case R.id.btnIniciar:
-			String user=_usuario.getText().toString();
-			String password=_contra.getText().toString();
-			//For not empty edittext
-			if(user=="" && password==""){
-				//Showing a message of empty edittext
-				Context context = getApplicationContext();
-				CharSequence text = "Rellene los campos de usuario y contraseña.";
-				int duration = Toast.LENGTH_SHORT;
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
+			String usuatrio = _usuario.getText().toString();
+			String contrasenia = _contra.getText().toString();
+			_usuario.setText("");
+			_contra.setText("");
+			
+			try {
+				Conexion con = new Conexion(MainActivity.this);
+				con.abrir();
+				boolean status = con.login(usuatrio, contrasenia);
 				
+				if (status){
+					Toast toast = Toast.makeText(getApplicationContext(), "Funciona :D", Toast.LENGTH_SHORT);
+					toast.show();
+					//startActivity(new Intent (MainActivity.this, ))
+				}else{
+					Toast toast = Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrecto", Toast.LENGTH_SHORT);
+					toast.show();
+				}
 				
-			}else{//for wrong password &username
-				startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+				con.cerrar();
+			} catch (Exception e) {
+				// TODO: handle exception
+				String error = e.toString();
+				Dialog d = new Dialog(this);
+				d.setTitle("No funciona :(");
+				TextView tv = new TextView(this);
+				tv.setText(error);
+				d.setContentView(tv);
+				d.show();
 			}
+			
 			break;
 			
 		case R.id.btnRegrist:
-			
+
 			 startActivity(new Intent(MainActivity.this, RegistrarAct.class));			
 			break;
 		
