@@ -1,14 +1,16 @@
 package com.curso.reportes;
 
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class Conexion {
 	public static final String ID_USUARIO = "_id";
-	public static final String ID_RESGISTRO = "_id";
+	public static final String ID_RESGISTRO = "id";
 	public static final String USUARIO = "usuario";
 	public static final String NOMBRE = "nombre";
 	public static final String CONTRA = "contrasenia";
@@ -73,6 +75,36 @@ public class Conexion {
 		// TODO Auto-generated method stub
 		nHelper.close();	
 	}
+
+	public boolean addUser(String nom, String usuario2, String contra) {
+		// TODO Auto-generated method stub
+		try {
+			ContentValues cv = new ContentValues();
+			cv.put(USUARIO, usuario2);
+			cv.put(NOMBRE, nom);
+			cv.put(CONTRA, contra);
+			nBD.insert(N_USUARIOS, null, cv);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+
+		
+				
+	}
+
+	public boolean login(String usuatrio, String contrasenia) {
+		// TODO Auto-generated method stub
+		Cursor c = nBD.rawQuery("SELECT * FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usuatrio,contrasenia});
+		if(c.getCount() > 0){
+			return true; 
+		}
+		
+		return false;
+	}
+	
+	
 	
 	
 	
