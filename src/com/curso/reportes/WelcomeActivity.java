@@ -15,15 +15,20 @@ import android.widget.TextView;
 public class WelcomeActivity extends Activity implements OnClickListener {
 	
 	TextView nombreUsuario;
-	
+	String user, contra;
 	ImageButton _nuevoReporte;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);
-	
+		nombreUsuario =(TextView) findViewById(R.id.tvNombreUsuario);
 		_nuevoReporte = (ImageButton) findViewById(R.id.btnCrearReporte);
 		_nuevoReporte.setOnClickListener(this);
 		
+		user = getIntent().getStringExtra("user");
+		contra = getIntent().getStringExtra("contra");
+		
+		
+		nombreUsuario.setText(user);
 		
 	}
 	@Override
