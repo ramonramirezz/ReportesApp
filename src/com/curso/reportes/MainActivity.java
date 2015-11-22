@@ -57,9 +57,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				boolean status = con.login(usuatrio, contrasenia);
 				
 				if (status){
-					Toast toast = Toast.makeText(getApplicationContext(), "Funciona :D", Toast.LENGTH_SHORT);
-					toast.show();
-					//startActivity(new Intent (MainActivity.this, ))
+					//Toast toast = Toast.makeText(getApplicationContext(), "Funciona :D", Toast.LENGTH_SHORT);
+					//toast.show();
+					startActivity(new Intent (MainActivity.this, WelcomeActivity.class));
 				}else{
 					Toast toast = Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrecto", Toast.LENGTH_SHORT);
 					toast.show();
@@ -76,7 +76,10 @@ public class MainActivity extends Activity implements OnClickListener {
 				d.setContentView(tv);
 				d.show();
 			}
-			
+			if	(usuatrio=="" && contrasenia==""){
+				Toast toast = Toast.makeText(getApplicationContext(), "Escriba usuario y/o contraseña.", Toast.LENGTH_SHORT);
+				toast.show();
+			}
 			break;
 			
 		case R.id.btnRegrist:
