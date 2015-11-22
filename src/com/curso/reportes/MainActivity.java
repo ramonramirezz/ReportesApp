@@ -52,14 +52,16 @@ public class MainActivity extends Activity implements OnClickListener {
 			_contra.setText("");
 			
 			try {
+				Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
 				Conexion con = new Conexion(MainActivity.this);
 				con.abrir();
 				boolean status = con.login(usuatrio, contrasenia);
 				
 				if (status){
-					//Toast toast = Toast.makeText(getApplicationContext(), "Funciona :D", Toast.LENGTH_SHORT);
-					//toast.show();
-					startActivity(new Intent (MainActivity.this, WelcomeActivity.class));
+					i.putExtra("user", usuatrio);
+					i.putExtra("contra", contrasenia);
+					startActivity(i);
+					
 				}else{
 					Toast toast = Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrecto", Toast.LENGTH_SHORT);
 					toast.show();
@@ -75,10 +77,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				tv.setText(error);
 				d.setContentView(tv);
 				d.show();
-			}
-			if	(usuatrio=="" && contrasenia==""){
-				Toast toast = Toast.makeText(getApplicationContext(), "Escriba usuario y/o contraseña.", Toast.LENGTH_SHORT);
-				toast.show();
 			}
 			break;
 			
