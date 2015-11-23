@@ -27,10 +27,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class NewReport extends Activity implements OnClickListener{
+public class NewReport extends Activity{
 	
 	Spinner _tipoServicio;
 	LinearLayout linearInfra, linearLim, linearCom;
@@ -51,13 +52,14 @@ public class NewReport extends Activity implements OnClickListener{
 	//bool
 	boolean _isInfra=false, _isLimpieza=false, _isequipo=false;
 	
-	
+	TextView request;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_report);	
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("Enviar Reporte");
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3789E1")));
+		request = (TextView) findViewById(R.id.textView1);
 		
 		linearInfra = (LinearLayout) findViewById(R.id.llcheckboxes);
 		linearLim = (LinearLayout) findViewById(R.id.llcheckboxes2);
@@ -66,8 +68,8 @@ public class NewReport extends Activity implements OnClickListener{
 		_ubicacion = (EditText) findViewById(R.id.etUbicacion);
 		_descripcion = (EditText) findViewById(R.id.etDescrip);
 		
-		crear = (Button) findViewById(R.id.btnCrear);
-		crear.setOnClickListener(this);
+		//crear = (Button) findViewById(R.id.btnCrear);
+		//crear.setOnClickListener(this);
 		
 		_tipoServicio = (Spinner) findViewById(R.id.spinner1);
         List<String> list = new ArrayList<String>();
@@ -156,47 +158,36 @@ public class NewReport extends Activity implements OnClickListener{
 	}
 	
 	public void send(View view){
+		String ubicacion, descrip;
 		Intent i = null, chooser = null;
 		if(view.getId()==R.id.btnCrear){
-			i = new Intent(Intent.ACTION_SEND);
-			i.setData(Uri.parse("mailto:"));
-			String[] to = {"reporte.isi@gmail.com"};
-			i.putExtra(i.EXTRA_EMAIL, to);
-			i.putExtra(i.EXTRA_SUBJECT, "Hi is only a Text");
-			i.putExtra(i.EXTRA_TEXT, "Please that send!!");
-			i.setType("message/rfc822");
-			chooser = i.createChooser(i, "Send Email");
-			startActivity(chooser);			
+			ubicacion = _ubicacion.getText().toString();
+			descrip = _descripcion.getText().toString();
+			if (ubicacion!="") {
+				for (int j = 0; j <array.size(); j++) {	
+					if (array.get(j).isChecked()) {
+						//Toast toast = Toast.makeText(getApplicationContext(), array.get(i).getText().toString(), Toast.LENGTH_SHORT);
+						//toast.show();
+						incidencias.add(array.get(j).getText().toString());
+					}
+				}
+				request.setText(incidencias.toString());
+			}else{
+				Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+//			i = new Intent(Intent.ACTION_SEND);
+//			i.setData(Uri.parse("mailto:"));
+//			String[] to = {"reporte.isi@gmail.com"};
+//			i.putExtra(i.EXTRA_EMAIL, to);
+//			i.putExtra(i.EXTRA_SUBJECT, "Hi is only a Text");
+//			i.putExtra(i.EXTRA_TEXT, "Please that send!!");
+//			i.setType("message/rfc822");
+//			chooser = i.createChooser(i, "Send Email");
+//			startActivity(chooser);			
 		}	
 	}
 
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		String ubicacion, descrip;
-		
-		
-		
-		switch (v.getId()){
-			case R.id.btnCrear:
-				ubicacion = _ubicacion.getText().toString();
-				descrip = _descripcion.getText().toString();
-				if (ubicacion!="") {
-					for (int i = 0; i <array.size(); i++) {	
-						if (array.get(i).isChecked()) {
-							//Toast toast = Toast.makeText(getApplicationContext(), array.get(i).getText().toString(), Toast.LENGTH_SHORT);
-							//toast.show();
-							incidencias.add(array.get(i).getText().toString());
-						}
-					}
-					
-				}else{
-					Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
-					toast.show();
-				}
-					
-			break;
-		}
-	}
+	
 }
