@@ -65,7 +65,6 @@ public class NewReport extends Activity implements OnClickListener{
                       
         dataAdapter.setDropDownViewResource
                      (android.R.layout.simple_spinner_dropdown_item);
-                      
         _tipoServicio.setAdapter(dataAdapter);
        
       //creo todos los checkbox       
@@ -125,9 +124,6 @@ public class NewReport extends Activity implements OnClickListener{
             } 
         });
 
-       
-       
-        
 	}
 
 	
@@ -160,7 +156,11 @@ public class NewReport extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()){
-		
+		case R.id.btnCrear:
+			if (_isInfra==true) {
+				
+			}
+			break;
 		}
 	}
 }
