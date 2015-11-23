@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
 	
-	TextView nombreUsuario;
+	TextView nombreUsuario, _tvNuevoReporte;
 	
 	ImageButton _nuevoReporte;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		_nuevoReporte = (ImageButton) findViewById(R.id.btnCrearReporte);
 		_nuevoReporte.setOnClickListener(this);
 		
-		
+		_tvNuevoReporte = (TextView) findViewById(R.id.tvNuevoReport);
+		_tvNuevoReporte.setOnClickListener(this);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -36,10 +37,12 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
-		case R.id.btnCrearReporte:
-			startActivity(new Intent (WelcomeActivity.this, NewReport.class));
-			break;
-		
+			case R.id.btnCrearReporte:
+				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				break;
+			case R.id.tvHistorial:
+				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				break;
 		}
 		}
 	}

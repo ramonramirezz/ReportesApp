@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class RegistrarAct extends Activity implements OnClickListener{
 
 	EditText _nombres, _usuario, _contra1, _contra2;
-	Button aceptar;
+	Button aceptar, cancelar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,8 +31,10 @@ public class RegistrarAct extends Activity implements OnClickListener{
 		_contra2 = (EditText) findViewById(R.id.edContra1);
 		
 		aceptar = (Button) findViewById(R.id.btnAceptar);
-		
 		aceptar.setOnClickListener(this);
+		
+		cancelar = (Button) findViewById(R.id.btnCancelar);
+		cancelar.setOnClickListener(this);
 	}
 
 	@Override
@@ -104,6 +106,14 @@ public class RegistrarAct extends Activity implements OnClickListener{
 				d.setContentView(tv);
 				d.show();
 			}
+			break;
+		case R.id.btnCancelar:
+			_nombres.setText("");
+			_usuario.setText("");
+			_contra1.setText("");
+			_contra2.setText("");
+			
+			startActivity(new Intent (RegistrarAct.this, MainActivity.class));
 			break;
 	}
   }

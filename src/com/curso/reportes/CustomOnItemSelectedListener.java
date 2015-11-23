@@ -3,7 +3,7 @@ package com.curso.reportes;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Toast;
+
 
 public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 
@@ -12,7 +12,7 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 			long arg3) {
 		// TODO Auto-generated method stub
 		
-
+		
 	}
 
 	@Override

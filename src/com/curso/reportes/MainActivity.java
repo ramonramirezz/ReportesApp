@@ -76,10 +76,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				d.setContentView(tv);
 				d.show();
 			}
-			if	(usuatrio=="" && contrasenia==""){
-				Toast toast = Toast.makeText(getApplicationContext(), "Escriba usuario y/o contraseña.", Toast.LENGTH_SHORT);
-				toast.show();
-			}
+			
 			break;
 			
 		case R.id.btnRegrist:

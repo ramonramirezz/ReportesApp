@@ -30,7 +30,8 @@
             android:background="#FFFFFF"
             android:gravity="center"
             android:hint="Usuario"
-            android:textColorLink="#000" />
+            android:textColorLink="#000"
+            android:fontFamily="sans-serif-condensed" />
         
          <EditText
              android:id="@+id/edContra"
@@ -41,7 +42,8 @@
              android:gravity="center"
              android:hint="Contraseña"
              android:inputType="textPassword"
-             android:textColorLink="#000" />
+             android:textColorLink="#000"
+             android:fontFamily="sans-serif-condensed" />
 
          <Button
              android:id="@+id/btnIniciar"
@@ -51,7 +53,8 @@
              android:layout_marginTop="10dp"
              android:background="#3775B7"
              android:text="Iniciar"
-             android:textColor="#FFFFFF" />
+             android:textColor="#FFFFFF"
+             android:fontFamily="sans-serif-condensed" />
          
           <Button
               android:id="@+id/btnRegrist"
@@ -61,7 +64,8 @@
               android:layout_marginTop="5dp"
               android:background="#3775B7"
               android:text="Registrarse"
-              android:textColor="#FFFFFF" />
+              android:textColor="#FFFFFF"
+              android:fontFamily="sans-serif-condensed" />
 
     </LinearLayout>
 
