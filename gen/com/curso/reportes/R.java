@@ -35,7 +35,7 @@ public final class R {
         public static final int user=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001c;
+        public static final int action_settings=0x7f09001e;
         public static final int btnAceptar=0x7f090012;
         public static final int btnCancelar=0x7f090013;
         public static final int btnCrear=0x7f09000e;
@@ -51,10 +51,12 @@ public final class R {
         public static final int etUbicacion=0x7f090006;
         public static final int imLogo=0x7f090000;
         public static final int imageView1=0x7f09000f;
+        public static final int listHistorial=0x7f09001d;
         public static final int llcheckboxes=0x7f090009;
         public static final int llcheckboxes2=0x7f09000a;
         public static final int llcheckboxes3=0x7f09000b;
         public static final int lnHistory=0x7f090019;
+        public static final int lnLista=0x7f09001c;
         public static final int lnNuevoReporte=0x7f090016;
         public static final int spinner1=0x7f090008;
         public static final int tvBienvenido=0x7f090014;
