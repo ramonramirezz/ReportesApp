@@ -78,10 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				d.setContentView(tv);
 				d.show();
 			}
-<<<<<<< HEAD
-			
-=======
->>>>>>> origin/master
+
 			break;
 			
 		case R.id.btnRegrist:

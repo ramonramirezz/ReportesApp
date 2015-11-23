@@ -17,17 +17,15 @@ import android.widget.TextView;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	TextView nombreUsuario, _tvNuevoReporte;
 	
-=======
-	TextView nombreUsuario;
-=======
-	TextView nombreUsuario, NuevoReporte;
->>>>>>> origin/master
+
+
+	TextView  NuevoReporte;
+
 	String user, contra;
->>>>>>> origin/master
+
 	ImageButton _nuevoReporte;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,17 +43,13 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		NuevoReporte.setOnClickListener(this);
 		_nuevoReporte.setOnClickListener(this);
 		
-<<<<<<< HEAD
-		_tvNuevoReporte = (TextView) findViewById(R.id.tvNuevoReport);
-		_tvNuevoReporte.setOnClickListener(this);
-=======
+
 		user = getIntent().getStringExtra("user");
 		contra = getIntent().getStringExtra("contra");
 		
 		
 		nombreUsuario.setText(user);
 		
->>>>>>> origin/master
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,22 +61,16 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
-<<<<<<< HEAD
+
 			case R.id.btnCrearReporte:
 				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				break;
 			case R.id.tvHistorial:
 				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				break;
-=======
-		case R.id.btnCrearReporte:
-			startActivity(new Intent (WelcomeActivity.this, NewReport.class));
-			break;
-			
-		case R.id.tvNuevoReport:
-			startActivity(new Intent (WelcomeActivity.this, NewReport.class));
-			break;
->>>>>>> origin/master
+
+
+
 		}
 		}
 	}
