@@ -1,6 +1,8 @@
 package com.curso.reportes;
 
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,25 +10,24 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
-	
+	Conexion con = new Conexion(this);
 
-	TextView nombreUsuario, _tvNuevoReporte;
-	
-
-
-	TextView  NuevoReporte;
-
+	TextView nombreUsuario, _tvNuevoReporte, _tvHistory;
 	String user, contra;
-
-	ImageButton _nuevoReporte;
+    ListView historial;
+	ImageButton _nuevoReporte ,hystory;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome);
@@ -35,20 +36,32 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		actionBar.setTitle("Bienvenido");
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3789E1")));
 		
-		NuevoReporte = (TextView) findViewById(R.id.tvNuevoReport);
+		_tvNuevoReporte = (TextView) findViewById(R.id.tvNuevoReport);
+		_tvHistory = (TextView) findViewById(R.id.tvHistory);
 		nombreUsuario =(TextView) findViewById(R.id.tvNombreUsuario);
+		historial = (ListView) findViewById(R.id.listHistorial);
 		
-		_nuevoReporte = (ImageButton) findViewById(R.id.btnCrearReporte);
+		_nuevoReporte = (ImageButton) findViewById(R.id.btnNuevoReporte);
+		hystory = (ImageButton) findViewById(R.id.btnHistory);
 		
-		NuevoReporte.setOnClickListener(this);
+		
+		_tvNuevoReporte.setOnClickListener(this);
+		_tvHistory.setOnClickListener(this);
 		_nuevoReporte.setOnClickListener(this);
+		hystory.setOnClickListener(this);
 		
-
 		user = getIntent().getStringExtra("user");
 		contra = getIntent().getStringExtra("contra");
 		
+		try{
+			con.abrir();
+			String  name = con.getName(user, contra);
+			con.cerrar();
+			nombreUsuario.setText(name);
+		}catch (Exception ex){
+			//request.setText(ex.toString());
+		}
 		
-		nombreUsuario.setText(user);
 		
 	}
 	@Override
@@ -57,18 +70,46 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	public boolean OnOptionItemSelected(MenuItem item) {
+	
+		int id = item.getItemId();
+		if (id == R.id.action_sesion) {
+			startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 
-			case R.id.btnCrearReporte:
+			case R.id.btnNuevoReporte:
 				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				break;
-			case R.id.tvHistorial:
+			case R.id.btnHistory:
+				//startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				break;
+			case R.id.tvNuevoReport:
 				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				break;
-
+			case R.id.tvHistory:
+				//startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				
+				try{					
+					con.abrir();
+					ArrayList<String> history = con.getHistory(user, contra);
+	
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                    (this, android.R.layout.simple_list_item_1,history);
+				
+					historial.setAdapter(dataAdapter);
+				}catch(Exception ex){
+					
+				}
+				break;
 
 
 		}

@@ -1,6 +1,8 @@
 package com.curso.reportes;
 
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,6 +19,7 @@ public class Conexion {
 	
 	public static final String FECHA = "fecha";
 	public static final String ID_USUARIOR = "usuario";
+	public static final String DESCRIP = "Descripcion";
 	
 	private static final String N_BD = "reportes";
 	private static final String N_USUARIOS = "usuarios";
@@ -46,6 +49,7 @@ public class Conexion {
 			db.execSQL("CREATE TABLE "+ N_HISTORIAL + "(" + 
 					ID_RESGISTRO + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
 					ID_USUARIO + " TEXT NOT NULL," + 
+					DESCRIP + " TEXT NOT NULL," +
 					FECHA + " TEXT NOT NULL);"
 					);
 			
@@ -104,8 +108,38 @@ public class Conexion {
 		return false;
 	}
 	
+	public ArrayList<String> getHistory (String usrario, String contra){
+		ArrayList<String> registro=new ArrayList<String>();
+		Cursor c = nBD.rawQuery("SELECT * FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usrario,contra});
+		 
+		//Nos aseguramos de que existe al menos un registro
+		if (c.moveToFirst()) {
+		     //Recorremos el cursor hasta que no haya más registros
+		     do {
+		    	 String reporte = c.getString(0) + " " + c.getString(1) + " " +c.getString(2);
+		         registro.add(reporte);
+		        
+		     } while(c.moveToNext());
+		}
+		return registro;
+	}
 	
 	
+	public String getName (String usrario, String contra){
+		String nombre = null;
+		Cursor c = nBD.rawQuery("SELECT nombre FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usrario,contra});
+		 
+		//Nos aseguramos de que existe al menos un registro
+		if (c.moveToFirst()) {
+		     //Recorremos el cursor hasta que no haya más registros
+			int i = 0;
+		     do {
+		         nombre =c.getString(0);
+		         
+		     } while(c.moveToNext());
+		}
+		return nombre;
+	}
 	
 	
 }
