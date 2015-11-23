@@ -1,5 +1,6 @@
 package com.curso.reportes;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.text.Editable;
+import android.text.format.DateFormat;
 import android.util.SparseArray;
 import android.view.View.OnClickListener;
 import android.content.Intent;
@@ -44,8 +46,8 @@ public class NewReport extends Activity{
 	String [] _limpieza ={"Aseo de aula(s)", "Aseo de cubículos","Aseo de pasillos","Aseo de laboratorios",
 			"Aseo de baños"};
 	String [] _equipo ={"Configuración de red","Instalación de red","Falta de internet","Formateo de equipo de cómputo",
-			"Instalación de software","Instalación de equipo (impresora, computadora)", "Mantenimiento de equipo preventivo",
-			"Mantenimiento de equipo correctivo","Mantenimiento de impresoras preventivo", "Mantenimiento de impresoras correctivo",
+			"Instalación de software","Instalación de equipo (impresora, computadora)", "Mantenimiento y/o reparación de equipo",
+			"Mantenimiento y/o reparación de impresoras",
 			"Mantenimiento de cañón correctivo","Reparación de cables(VGA, corriente)"};
 	EditText _ubicacion, _descripcion;
 	Button crear;
@@ -53,6 +55,7 @@ public class NewReport extends Activity{
 	ArrayList<String> incidencias = new ArrayList<String>();
 	
 	SparseArray<CheckBox> array = new SparseArray<CheckBox>();
+	
 	//bool
 	boolean _isInfra=false, _isLimpieza=false, _isequipo=false;
 	
@@ -128,21 +131,13 @@ public class NewReport extends Activity{
                 		linearInfra.setVisibility(View.VISIBLE);
                 		linearLim.setVisibility(View.GONE);
                 		linearCom.setVisibility(View.GONE);
-                   		_isInfra=true;
-                   		_isLimpieza=false;
-                   		_isequipo=false;
+
                 	} else if (_tipoServicio.getItemAtPosition(i).toString()=="Limpieza"){
-                		_isLimpieza=true;
-                		_isInfra=false;
-                   		_isequipo=false;
                 		linearLim.setVisibility(View.VISIBLE);
                 		linearCom.setVisibility(View.GONE);
                 		linearInfra.setVisibility(View.GONE);
                 		
                 	}else if (_tipoServicio.getItemAtPosition(i).toString()=="Equipo de cómputo"){
-                		_isequipo=true;
-                		_isInfra=false;
-                		_isLimpieza=false;
                 		linearCom.setVisibility(View.VISIBLE);
                 		linearLim.setVisibility(View.GONE);
                 		linearInfra.setVisibility(View.GONE);
@@ -172,35 +167,56 @@ public class NewReport extends Activity{
 		if(view.getId()==R.id.btnCrear){
 			ubicacion = _ubicacion.getText().toString();
 			descrip = _descripcion.getText().toString();
-			if (ubicacion!="") {
+			if (ubicacion.equals("")) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
+				toast.show();
+			}else{
 				for (int j = 0; j <array.size(); j++) {	
 					if (array.get(j).isChecked()) {
-						//Toast toast = Toast.makeText(getApplicationContext(), array.get(i).getText().toString(), Toast.LENGTH_SHORT);
-						//toast.show();
 						incidencias.add(array.get(j).getText().toString());
 					}
 				}
-				//request.setText(incidencias.toString());
-			}else{
-				Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
-				toast.show();
 				
+				try {
+					Conexion con = new Conexion(this);					
+					String fecha = this.date();
+					con.abrir();
+				String status = con.setHistory(id_user, ubicacion, fecha);
+				con.cerrar();
+				
+					if (status.equals("bien")) {
+						i = new Intent(Intent.ACTION_SEND);
+						i.setData(Uri.parse("mailto:"));
+						String[] to = {"reporte.isi@gmail.com"};
+						i.putExtra(i.EXTRA_EMAIL, to);
+						i.putExtra(i.EXTRA_SUBJECT, "Reporte para el aula " + ubicacion);
+						i.putExtra(i.EXTRA_TEXT, incidencias + " " + fecha +" " + descrip);
+						i.setType("message/rfc822");
+						chooser = i.createChooser(i, "Send Email");
+						startActivity(chooser);	
+						
+						
+//						Toast toast = Toast.makeText(getApplicationContext(), "Nuevo reporte enviado", Toast.LENGTH_SHORT);
+//						toast.show();
+					
+						for (int j = 0; j <array.size(); j++) {	
+							array.get(j).setChecked(false);
+						}
+						_ubicacion.setText("");
+						_descripcion.setText("");
+						incidencias.clear();
+						
+					}else{
+						Toast toast = Toast.makeText(getApplicationContext(), "Error en enviar reporte", Toast.LENGTH_SHORT);
+						toast.show();				
+		                
+					}					
+				} catch (Exception e) {
+					Toast toast = Toast.makeText(getApplicationContext(), "Error ex", Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			}
-			Conexion con = new Conexion(this);
-			
-			String fecha = this.date();
-			con.abrir();
-		String status = con.setHistory(id_user, ubicacion, fecha);
-		con.cerrar();
-			
-//			//String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
-			if (status.equals("bien")) {
-				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia!", Toast.LENGTH_SHORT);
-				toast.show();
-			}else{
-				
 
-			}
 //			if (status) {
 //				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia", Toast.LENGTH_SHORT);
 //				toast.show();
@@ -210,23 +226,16 @@ public class NewReport extends Activity{
 //				Toast toast = Toast.makeText(getApplicationContext(), "pasa algo", Toast.LENGTH_SHORT);
 //				toast.show();
 //			}
-//			i = new Intent(Intent.ACTION_SEND);
-//			i.setData(Uri.parse("mailto:"));
-//			String[] to = {"reporte.isi@gmail.com"};
-//			i.putExtra(i.EXTRA_EMAIL, to);
-//			i.putExtra(i.EXTRA_SUBJECT, "Reporte para el aula " + ubicacion);
-//			i.putExtra(i.EXTRA_TEXT, incidencias + " " + fecha +" " + descrip);
-//			i.setType("message/rfc822");
-//			chooser = i.createChooser(i, "Send Email");
-//			startActivity(chooser);			
+		
 		}	
 	}
 	
 	public String date(){
 		String date = "";
-		Date fecha = new Date();
 		
-		date = fecha.getDay() + "/" + fecha.getMonth() + "/" + fecha.getYear();
+		SimpleDateFormat  dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date fecha = new Date();
+		date = dateFormat.format(fecha);
 		return date;
 	}
 

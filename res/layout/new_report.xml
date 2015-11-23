@@ -28,8 +28,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:hint="Escriba la ubicación"
-            android:textSize="12dp" />
+            android:hint="Ej. 5k-205"
+            android:textSize="18dp"
+             />
     </LinearLayout>
     <!-- Tipo -->
 
@@ -111,7 +112,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:hint="Escriba descripción"
+            android:hint="Escriba descripción (Opcional)"
             android:textColor="#6E6E6E"
             android:textSize="12dp" />
     </LinearLayout>
@@ -120,6 +121,7 @@
         android:id="@+id/btnCrear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:layout_marginTop="10dp"
         android:background="#3775B7"
         android:fontFamily="sans-serif-condensed"

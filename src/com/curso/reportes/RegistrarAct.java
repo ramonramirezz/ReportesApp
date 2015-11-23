@@ -72,15 +72,12 @@ public class RegistrarAct extends Activity implements OnClickListener{
 					
 					if (status) {
 						
-							Dialog d = new Dialog(this);
-							d.setTitle("Se creo su usuario exitosamente");
-							TextView tv = new TextView(this);
-							d.setContentView(tv);
-							d.show();
+						Toast toast = Toast.makeText(getApplicationContext(), "Se creo su usuario.", Toast.LENGTH_SHORT);
+						toast.show();
 							startActivity(new Intent (RegistrarAct.this, MainActivity.class));
 						
 					}else {
-						Toast toast = Toast.makeText(getApplicationContext(), "No se creo usuario", Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), "No se creo usuario.", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}else{

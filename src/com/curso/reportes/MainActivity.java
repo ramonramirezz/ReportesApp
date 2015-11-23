@@ -82,19 +82,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				// TODO: handle exception
 				String error = e.toString();
 				Dialog d = new Dialog(this);
-				if (_usuario.getText().toString()=="" || contrasenia =="") {
-					d.setTitle("Error");
-					TextView tv = new TextView(this);
-					tv.setText("Ingrese usuario y/o contraseña.");
-					d.setContentView(tv);
-					d.show();
-				}else{
 				d.setTitle("Error");
 				TextView tv = new TextView(this);
 				tv.setText("Usuario/Contraseña incorrecto(s)");
 				d.setContentView(tv);
 				d.show();
-				}
+				
 			}
 
 			break;
