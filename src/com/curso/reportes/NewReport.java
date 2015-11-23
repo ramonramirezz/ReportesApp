@@ -3,9 +3,12 @@ package com.curso.reportes;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.array;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.util.SparseArray;
 import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,8 +24,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class NewReport extends Activity implements OnClickListener{
@@ -37,10 +42,15 @@ public class NewReport extends Activity implements OnClickListener{
 			"Instalación de software","Instalación de equipo (impresora, computadora)", "Mantenimiento de equipo preventivo",
 			"Mantenimiento de equipo correctivo","Mantenimiento de impresoras preventivo", "Mantenimiento de impresoras correctivo",
 			"Mantenimiento de cañón correctivo","Reparación de cables(VGA, corriente)"};
-	CheckBox check1;
+	EditText _ubicacion, _descripcion;
 	Button crear;
+	//
+	ArrayList<String> incidencias = new ArrayList<String>();
+	
+	SparseArray<CheckBox> array = new SparseArray<CheckBox>();
 	//bool
 	boolean _isInfra=false, _isLimpieza=false, _isequipo=false;
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,8 +62,13 @@ public class NewReport extends Activity implements OnClickListener{
 		linearInfra = (LinearLayout) findViewById(R.id.llcheckboxes);
 		linearLim = (LinearLayout) findViewById(R.id.llcheckboxes2);
 		linearCom = (LinearLayout) findViewById(R.id.llcheckboxes3);
+		
+		_ubicacion = (EditText) findViewById(R.id.etUbicacion);
+		_descripcion = (EditText) findViewById(R.id.etDescrip);
+		
 		crear = (Button) findViewById(R.id.btnCrear);
 		crear.setOnClickListener(this);
+		
 		_tipoServicio = (Spinner) findViewById(R.id.spinner1);
         List<String> list = new ArrayList<String>();
         list.add("Infraestructura");
@@ -66,13 +81,15 @@ public class NewReport extends Activity implements OnClickListener{
         dataAdapter.setDropDownViewResource
                      (android.R.layout.simple_spinner_dropdown_item);
         _tipoServicio.setAdapter(dataAdapter);
-       
+               
       //creo todos los checkbox       
         //checkbox infraestructura
         for (int i = 0; i < _infra.length; i++) {
         	CheckBox cbIfra = new CheckBox(this);
 			cbIfra.setText(_infra[i]);
-			cbIfra.setId(i+6);
+			cbIfra.setId(i);
+			cbIfra.setTextSize(12);			
+			array.put(i, cbIfra);
             linearInfra.addView(cbIfra);
 		}
        
@@ -81,6 +98,8 @@ public class NewReport extends Activity implements OnClickListener{
         	CheckBox cbLim = new CheckBox(this);
 			cbLim.setText(_limpieza[i]);
 			cbLim.setId(i);
+			cbLim.setTextSize(12);
+			array.put(i+_infra.length, cbLim);
             linearLim.addView(cbLim);
 		}
         
@@ -89,6 +108,8 @@ public class NewReport extends Activity implements OnClickListener{
         	CheckBox cbCom = new CheckBox(this);
 			cbCom.setText(_equipo[i]);
 			cbCom.setId(i);
+			cbCom.setTextSize(12);
+			array.put(i+_limpieza.length, cbCom);
             linearCom.addView(cbCom);
 		}
         
@@ -145,21 +166,36 @@ public class NewReport extends Activity implements OnClickListener{
 			i.putExtra(i.EXTRA_TEXT, "Please that send!!");
 			i.setType("message/rfc822");
 			chooser = i.createChooser(i, "Send Email");
-			startActivity(chooser);
-			
-		}
-		
+			startActivity(chooser);			
+		}	
 	}
 
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		String ubicacion, descrip;
+		
+		
+		
 		switch (v.getId()){
-		case R.id.btnCrear:
-			if (_isInfra==true) {
-				
-			}
+			case R.id.btnCrear:
+				ubicacion = _ubicacion.getText().toString();
+				descrip = _descripcion.getText().toString();
+				if (ubicacion!="") {
+					for (int i = 0; i <array.size(); i++) {	
+						if (array.get(i).isChecked()) {
+							//Toast toast = Toast.makeText(getApplicationContext(), array.get(i).getText().toString(), Toast.LENGTH_SHORT);
+							//toast.show();
+							incidencias.add(array.get(i).getText().toString());
+						}
+					}
+					
+				}else{
+					Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
+					toast.show();
+				}
+					
 			break;
 		}
 	}
