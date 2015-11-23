@@ -50,8 +50,8 @@ public class Conexion {
 			db.execSQL("CREATE TABLE "+ N_HISTORIAL + "(" + 
 					ID_RESGISTRO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +  
 					ID_USUARIO + " TEXT NOT NULL," + 
-					UBICACION + " TEXT NOT NULL," + 
-					FECHA + " TEXT NOT NULL);"
+					UBICACION + " TEXT ," + 
+					FECHA + " TEXT );"
 					);
 			
 			}
@@ -157,6 +157,7 @@ public class Conexion {
 		// TODO Auto-generated method stub
 		String status;
 		try {
+			
 			ContentValues cv = new ContentValues();
 			cv.put(ID_USUARIO, id);
 			cv.put(UBICACION, ubicacion);
@@ -164,6 +165,7 @@ public class Conexion {
 			nBD.insert(N_HISTORIAL, null, cv);
 			 status = "bien";
 			 
+	        
 		} catch (Exception e) {
 			// TODO: handle exception
 			status = e.toString();

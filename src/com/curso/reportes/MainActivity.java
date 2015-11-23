@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 //		Conexion con = new Conexion(this);
 //		con.abrir();
-//		String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
+//		String status = con.setHistory("1", "5k-201", "21/20/20");
 //		_usuario.setText(status);
 //		con.cerrar();
 		
@@ -82,11 +82,19 @@ public class MainActivity extends Activity implements OnClickListener {
 				// TODO: handle exception
 				String error = e.toString();
 				Dialog d = new Dialog(this);
-				d.setTitle("No funciona :(");
+				if (_usuario.getText().toString()=="" || contrasenia =="") {
+					d.setTitle("Error");
+					TextView tv = new TextView(this);
+					tv.setText("Ingrese usuario y/o contraseña.");
+					d.setContentView(tv);
+					d.show();
+				}else{
+				d.setTitle("Error");
 				TextView tv = new TextView(this);
-				tv.setText(error);
+				tv.setText("Usuario/Contraseña incorrecto(s)");
 				d.setContentView(tv);
 				d.show();
+				}
 			}
 
 			break;

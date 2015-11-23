@@ -56,7 +56,7 @@ public class NewReport extends Activity{
 	//bool
 	boolean _isInfra=false, _isLimpieza=false, _isequipo=false;
 	
-	TextView request;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_report);	
@@ -66,7 +66,7 @@ public class NewReport extends Activity{
 		
 		id_user = getIntent().getStringExtra("id_user");
 		
-		request = (TextView) findViewById(R.id.textView1);
+		
 		
 		linearInfra = (LinearLayout) findViewById(R.id.llcheckboxes);
 		linearLim = (LinearLayout) findViewById(R.id.llcheckboxes2);
@@ -166,7 +166,7 @@ public class NewReport extends Activity{
 	
 	public void send(View view){
 		Intent inte = new Intent(NewReport.this, WelcomeActivity.class);
-		Conexion con = new Conexion(this);
+		
 		String ubicacion, descrip;
 		Intent i = null, chooser = null;
 		if(view.getId()==R.id.btnCrear){
@@ -186,16 +186,20 @@ public class NewReport extends Activity{
 				toast.show();
 				
 			}
+			Conexion con = new Conexion(this);
+			
 			String fecha = this.date();
+			con.abrir();
 		String status = con.setHistory(id_user, ubicacion, fecha);
-			request.setText(id_user + " "+ ubicacion + " " + fecha +" "+descrip);
-			//String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
+		con.cerrar();
+			
+//			//String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
 			if (status.equals("bien")) {
-				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia!", Toast.LENGTH_SHORT);
 				toast.show();
 			}else{
-				Toast toast = Toast.makeText(getApplicationContext(), "noo", Toast.LENGTH_SHORT);
-				toast.show();
+				
+
 			}
 //			if (status) {
 //				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia", Toast.LENGTH_SHORT);
