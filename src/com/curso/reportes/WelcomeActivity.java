@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
 	
-	TextView nombreUsuario;
+	TextView nombreUsuario, NuevoReporte;
 	String user, contra;
 	ImageButton _nuevoReporte;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,12 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		actionBar.setTitle("Bienvenido");
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3789E1")));
 		
-		
+		NuevoReporte = (TextView) findViewById(R.id.tvNuevoReport);
 		nombreUsuario =(TextView) findViewById(R.id.tvNombreUsuario);
+		
 		_nuevoReporte = (ImageButton) findViewById(R.id.btnCrearReporte);
+		
+		NuevoReporte.setOnClickListener(this);
 		_nuevoReporte.setOnClickListener(this);
 		
 		user = getIntent().getStringExtra("user");
@@ -53,7 +56,10 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		case R.id.btnCrearReporte:
 			startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 			break;
-		
+			
+		case R.id.tvNuevoReport:
+			startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+			break;
 		}
 		}
 	}
