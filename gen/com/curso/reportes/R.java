@@ -12,6 +12,7 @@ public final class R {
     }
     public static final class color {
         public static final int accent=0x7f040002;
+        public static final int mycolor_bar=0x7f040003;
         public static final int primary=0x7f040000;
         public static final int primary_dark=0x7f040001;
     }

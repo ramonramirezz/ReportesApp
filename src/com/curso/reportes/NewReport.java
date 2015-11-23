@@ -3,8 +3,11 @@ package com.curso.reportes;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +22,9 @@ public class NewReport extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_report);	
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle("Enviar Reporte");
+		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3789E1")));
 		_tipoServicio = (Spinner) findViewById(R.id.spinner1);
         List<String> list = new ArrayList<String>();
         list.add("Infraestructura");
@@ -56,7 +62,7 @@ public class NewReport extends Activity{
 			i.putExtra(i.EXTRA_TEXT, "Please that send!!");
 			i.setType("message/rfc822");
 			chooser = i.createChooser(i, "Send Email");
-			startActivity(i);
+			startActivity(chooser);
 			
 		}
 		
