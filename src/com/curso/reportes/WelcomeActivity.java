@@ -25,7 +25,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	Conexion con = new Conexion(this);
 
 	TextView nombreUsuario, _tvNuevoReporte, _tvHistory;
-	String user, contra;
+	String id;
     ListView historial;
 	ImageButton _nuevoReporte ,hystory;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +50,13 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		_nuevoReporte.setOnClickListener(this);
 		hystory.setOnClickListener(this);
 		
-		user = getIntent().getStringExtra("user");
-		contra = getIntent().getStringExtra("contra");
+		id = getIntent().getStringExtra("id_user");
 		
 		try{
 			con.abrir();
-			String  name = con.getName(user, contra);
+			ArrayList<String> registro= con.getUser(id);
 			con.cerrar();
-			nombreUsuario.setText(name);
+			nombreUsuario.setText(registro.get(2));
 		}catch (Exception ex){
 			//request.setText(ex.toString());
 		}
@@ -87,20 +86,24 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		switch(v.getId()){
 
 			case R.id.btnNuevoReporte:
-				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				Intent i = new Intent(WelcomeActivity.this, NewReport.class);
+				i.putExtra("id_user", id);
+				startActivity(i);
 				break;
 			case R.id.btnHistory:
 				//startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				break;
 			case R.id.tvNuevoReport:
-				startActivity(new Intent (WelcomeActivity.this, NewReport.class));
+				Intent inte = new Intent(WelcomeActivity.this, NewReport.class);
+				inte.putExtra("id_user", id);
+				startActivity(inte);
 				break;
 			case R.id.tvHistory:
 				//startActivity(new Intent (WelcomeActivity.this, NewReport.class));
 				
 				try{					
 					con.abrir();
-					ArrayList<String> history = con.getHistory(user, contra);
+					ArrayList<String> history = con.getHistory(id);
 	
 					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                     (this, android.R.layout.simple_list_item_1,history);

@@ -1,6 +1,7 @@
 package com.curso.reportes;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.R.array;
@@ -33,7 +34,10 @@ import android.widget.Toast;
 
 public class NewReport extends Activity{
 	
+	
 	Spinner _tipoServicio;
+	String id_user;
+	
 	LinearLayout linearInfra, linearLim, linearCom;
 	String[] _infra = {"Iluminación", "Electricidad","Aire Acondicionado","Falta de Mesabancos/sillas",
 			"Falta de mesa y/o escritorio", "Ventanas","Contacto eléctrico","Llave de aulas"};
@@ -59,6 +63,9 @@ public class NewReport extends Activity{
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("Enviar Reporte");
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3789E1")));
+		
+		id_user = getIntent().getStringExtra("id_user");
+		
 		request = (TextView) findViewById(R.id.textView1);
 		
 		linearInfra = (LinearLayout) findViewById(R.id.llcheckboxes);
@@ -158,6 +165,8 @@ public class NewReport extends Activity{
 	}
 	
 	public void send(View view){
+		Intent inte = new Intent(NewReport.this, WelcomeActivity.class);
+		Conexion con = new Conexion(this);
 		String ubicacion, descrip;
 		Intent i = null, chooser = null;
 		if(view.getId()==R.id.btnCrear){
@@ -171,21 +180,50 @@ public class NewReport extends Activity{
 						incidencias.add(array.get(j).getText().toString());
 					}
 				}
-				request.setText(incidencias.toString());
+				//request.setText(incidencias.toString());
 			}else{
 				Toast toast = Toast.makeText(getApplicationContext(), "Escriba una ubicación.", Toast.LENGTH_SHORT);
 				toast.show();
+				
 			}
+			String fecha = this.date();
+		String status = con.setHistory(id_user, ubicacion, fecha);
+			request.setText(id_user + " "+ ubicacion + " " + fecha +" "+descrip);
+			//String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
+			if (status.equals("bien")) {
+				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia", Toast.LENGTH_SHORT);
+				toast.show();
+			}else{
+				Toast toast = Toast.makeText(getApplicationContext(), "noo", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+//			if (status) {
+//				Toast toast = Toast.makeText(getApplicationContext(), "SE inserto tu historia", Toast.LENGTH_SHORT);
+//				toast.show();
+//				i.putExtra("id_user", id_user);
+//				this.startActivity(inte);
+//			}else{
+//				Toast toast = Toast.makeText(getApplicationContext(), "pasa algo", Toast.LENGTH_SHORT);
+//				toast.show();
+//			}
 //			i = new Intent(Intent.ACTION_SEND);
 //			i.setData(Uri.parse("mailto:"));
 //			String[] to = {"reporte.isi@gmail.com"};
 //			i.putExtra(i.EXTRA_EMAIL, to);
-//			i.putExtra(i.EXTRA_SUBJECT, "Hi is only a Text");
-//			i.putExtra(i.EXTRA_TEXT, "Please that send!!");
+//			i.putExtra(i.EXTRA_SUBJECT, "Reporte para el aula " + ubicacion);
+//			i.putExtra(i.EXTRA_TEXT, incidencias + " " + fecha +" " + descrip);
 //			i.setType("message/rfc822");
 //			chooser = i.createChooser(i, "Send Email");
 //			startActivity(chooser);			
 		}	
+	}
+	
+	public String date(){
+		String date = "";
+		Date fecha = new Date();
+		
+		date = fecha.getDay() + "/" + fecha.getMonth() + "/" + fecha.getYear();
+		return date;
 	}
 
 

@@ -20,6 +20,7 @@ public class Conexion {
 	public static final String FECHA = "fecha";
 	public static final String ID_USUARIOR = "usuario";
 	public static final String DESCRIP = "Descripcion";
+	public static final String UBICACION = "ubicacion";
 	
 	private static final String N_BD = "reportes";
 	private static final String N_USUARIOS = "usuarios";
@@ -47,9 +48,9 @@ public class Conexion {
 					CONTRA + " TEXT NOT NULL);"
 		);
 			db.execSQL("CREATE TABLE "+ N_HISTORIAL + "(" + 
-					ID_RESGISTRO + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+					ID_RESGISTRO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +  
 					ID_USUARIO + " TEXT NOT NULL," + 
-					DESCRIP + " TEXT NOT NULL," +
+					UBICACION + " TEXT NOT NULL," + 
 					FECHA + " TEXT NOT NULL);"
 					);
 			
@@ -98,26 +99,35 @@ public class Conexion {
 				
 	}
 
-	public boolean login(String usuatrio, String contrasenia) {
+	public ArrayList<String> login(String usuatrio, String contrasenia) {
 		// TODO Auto-generated method stub
+		ArrayList<String> registro=new ArrayList<String>();
 		Cursor c = nBD.rawQuery("SELECT * FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usuatrio,contrasenia});
-		if(c.getCount() > 0){
-			return true; 
-		}
 		
-		return false;
+				if (c.moveToFirst()) {
+				     
+				     do {
+				         registro.add(c.getString(0));
+				         registro.add(c.getString(1));
+				         registro.add(c.getString(2));
+				         registro.add(c.getString(3));
+				        
+				     } while(c.moveToNext());
+				}
+				return registro;
 	}
 	
-	public ArrayList<String> getHistory (String usrario, String contra){
+	public ArrayList<String> getHistory (String id){
 		ArrayList<String> registro=new ArrayList<String>();
-		Cursor c = nBD.rawQuery("SELECT * FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usrario,contra});
+		Cursor c = nBD.rawQuery("SELECT * FROM " + N_HISTORIAL + " WHERE _id=?", new String[]{id});
 		 
 		//Nos aseguramos de que existe al menos un registro
 		if (c.moveToFirst()) {
 		     //Recorremos el cursor hasta que no haya más registros
 		     do {
-		    	 String reporte = c.getString(0) + " " + c.getString(1) + " " +c.getString(2);
-		         registro.add(reporte);
+		    	 String item = c.getString(2) + " " + c.getString(3);
+		         registro.add(item);
+		       
 		        
 		     } while(c.moveToNext());
 		}
@@ -125,20 +135,42 @@ public class Conexion {
 	}
 	
 	
-	public String getName (String usrario, String contra){
-		String nombre = null;
-		Cursor c = nBD.rawQuery("SELECT nombre FROM " + N_USUARIOS + " WHERE usuario=? AND contrasenia=?", new String[]{usrario,contra});
+	public ArrayList<String> getUser (String id){
+		ArrayList<String> registro=new ArrayList<String>();
+		Cursor c = nBD.rawQuery("SELECT * FROM " + N_USUARIOS + " WHERE _id=?", new String[]{id});
 		 
-		//Nos aseguramos de que existe al menos un registro
 		if (c.moveToFirst()) {
-		     //Recorremos el cursor hasta que no haya más registros
-			int i = 0;
+			
 		     do {
-		         nombre =c.getString(0);
+		         registro.add(c.getString(0));
+		         registro.add(c.getString(1));
+		         registro.add(c.getString(2));
+		         registro.add(c.getString(3));
+		         
 		         
 		     } while(c.moveToNext());
 		}
-		return nombre;
+		return registro;
+	}
+	
+	public String setHistory(String id,String ubicacion, String fecha) {
+		// TODO Auto-generated method stub
+		String status;
+		try {
+			ContentValues cv = new ContentValues();
+			cv.put(ID_USUARIO, id);
+			cv.put(UBICACION, ubicacion);
+			cv.put(FECHA, fecha);
+			nBD.insert(N_HISTORIAL, null, cv);
+			 status = "bien";
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+			status = e.toString();
+		}
+          return status;
+		
+				
 	}
 	
 	

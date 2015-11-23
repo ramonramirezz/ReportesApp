@@ -1,6 +1,9 @@
 package com.curso.reportes;
 
 import android.os.Bundle;
+
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
@@ -31,6 +34,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		_iniciar.setOnClickListener(this);
 		_registrar.setOnClickListener(this);
 		
+//		Conexion con = new Conexion(this);
+//		con.abrir();
+//		String status = con.setHistory("1", "5k-201", "21/20/20", "Testssssssssssssssssssssssssssssss");
+//		_usuario.setText(status);
+//		con.cerrar();
+		
+	
+		
 	}
 
 	@Override
@@ -55,12 +66,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
 				Conexion con = new Conexion(MainActivity.this);
 				con.abrir();
-				boolean status = con.login(usuatrio, contrasenia);
-				
-				if (status){
-					i.putExtra("user", usuatrio);
-					i.putExtra("contra", contrasenia);
+				ArrayList<String> registro = con.login(usuatrio, contrasenia);
+				if (registro.get(1).equals(usuatrio) && registro.get(3).equals(contrasenia)){
+					i.putExtra("id_user", registro.get(0));
 					startActivity(i);
+					
 					
 				}else{
 					Toast toast = Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrecto", Toast.LENGTH_SHORT);
