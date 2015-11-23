@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
+    
      >
      
     <!-- Ubicacion -->
@@ -97,5 +98,6 @@
         android:text="Crear"
         android:textColor="#FFFFFF"
         android:layout_marginTop="10dp"
+        android:onClick="send"
 	    />
 </LinearLayout>
