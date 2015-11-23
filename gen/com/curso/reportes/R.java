@@ -35,7 +35,7 @@ public final class R {
         public static final int user=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001e;
+        public static final int action_sesion=0x7f09001e;
         public static final int btnAceptar=0x7f090012;
         public static final int btnCancelar=0x7f090013;
         public static final int btnCrear=0x7f09000e;

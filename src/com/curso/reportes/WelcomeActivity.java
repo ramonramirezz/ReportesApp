@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -69,6 +70,17 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	public boolean OnOptionItemSelected(MenuItem item) {
+	
+		int id = item.getItemId();
+		if (id == R.id.action_sesion) {
+			startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
