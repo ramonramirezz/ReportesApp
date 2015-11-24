@@ -183,14 +183,19 @@ public class NewReport extends Activity{
 					con.abrir();
 				String status = con.setHistory(id_user, ubicacion, fecha);
 				con.cerrar();
-				
+				 String mensaje = "Nuevo reporte de incidencias: " + "\n";
 					if (status.equals("bien")) {
 						i = new Intent(Intent.ACTION_SEND);
 						i.setData(Uri.parse("mailto:"));
 						String[] to = {"reporte.isi@gmail.com"};
 						i.putExtra(i.EXTRA_EMAIL, to);
+						
+						for(String incid:incidencias){
+							mensaje += incid + "\n";
+						}
+						mensaje += "Descripcion" + "\n" + descrip + "\n"  + fecha + "\n";
 						i.putExtra(i.EXTRA_SUBJECT, "Reporte para el aula " + ubicacion);
-						i.putExtra(i.EXTRA_TEXT, incidencias + " " + fecha +" " + descrip);
+						i.putExtra(i.EXTRA_TEXT, mensaje);
 						i.setType("message/rfc822");
 						chooser = i.createChooser(i, "Send Email");
 						startActivity(chooser);	
